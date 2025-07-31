@@ -1,22 +1,15 @@
 <h1><%= @user.email %>'s Profile</h1>
 
-<h2>Created Events</h2>
+<h2>Upcoming Events Created</h2>
 <ul>
-  <% @user.created_events.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
+  <% @user.created_events.select { |e| e.date && e.date >= Time.now }.each do |event| %>
+    <li><%= link_to event.title, event_path(event) %> - <%= event.date.strftime("%B %d, %Y %l:%M %p") %></li>
   <% end %>
 </ul>
 
-<h2>Upcoming Attended Events</h2>
+<h2>Past Events Created</h2>
 <ul>
-  <% @user.attended_events.select { |e| e.date >= Time.now }.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
-  <% end %>
-</ul>
-
-<h2>Past Attended Events</h2>
-<ul>
-  <% @user.attended_events.select { |e| e.date < Time.now }.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
+  <% @user.created_events.select { |e| e.date && e.date < Time.now }.each do |event| %>
+    <li><%= link_to event.title, event_path(event) %> - <%= event.date.strftime("%B %d, %Y %l:%M %p") %></li>
   <% end %>
 </ul>
