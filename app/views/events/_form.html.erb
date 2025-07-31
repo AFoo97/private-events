@@ -1,0 +1,20 @@
+<%= form_with model: @event do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %><br>
+
+  <%= f.label :location %>
+  <%= f.text_field :location %><br>
+
+  <%= f.label :date %>
+  <%= f.datetime_select :date %><br>
+
+  <%= f.label :private %>
+  <%= f.check_box :private %><br>
+
+  <% if User.count > 1 %>
+    <%= f.label "Invite Users" %><br>
+    <%= f.collection_select :invited_user_ids, User.where.not(id: current_user.id), :id, :email, {}, { multiple: true } %>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>

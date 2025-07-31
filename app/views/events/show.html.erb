@@ -1,2 +1,20 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<h1><%= @event.title %></h1>
+<p><%= @event.location %> at <%= @event.date %></p>
+
+<% if user_signed_in? %>
+  <% if current_user == @event.creator %>
+    <%= link_to "Edit", edit_event_path(@event) %> |
+    <%= link_to "Delete", event_path(@event), method: :delete, data: { confirm: "Are you sure?" } %>
+  <% elsif !@event.attendees.include?(current_user) %>
+    <%= button_to "Attend", event_attendances_path(attended_event_id: @event.id), method: :post %>
+  <% else %>
+    <%= button_to "Unattend", event_attendances_path(attended_event_id: @event.id), method: :delete %>
+  <% end %>
+<% end %>
+
+<h2>Attendees:</h2>
+<ul>
+  <% @event.attendees.each do |attendee| %>
+    <li><%= attendee.email %></li>
+  <% end %>
+</ul>
