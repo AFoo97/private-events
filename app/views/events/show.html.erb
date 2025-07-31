@@ -1,6 +1,9 @@
 <h1><%= @event.title %></h1>
 <p><%= @event.location %> at <%= @event.date %></p>
 
+<p><strong>Description:</strong></p>
+<p><%= @event.description %></p>
+
 <% if user_signed_in? %>
   <% if current_user == @event.creator %>
     <%= link_to "Edit", edit_event_path(@event) %> |
